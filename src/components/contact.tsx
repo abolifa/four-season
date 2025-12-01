@@ -13,11 +13,10 @@ export default function Contact() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    formData.append("to", "info@fourseason.com.ly");
-    formData.append("subject", "New Contact Message — Four Season");
+    formData.append("to", "info@watanalmajd.com.ly");
 
     try {
-      const response = await fetch("https://eratech.com.ly/send-form.php", {
+      const response = await fetch("https://relay.eratech.com.ly/send", {
         method: "POST",
         body: formData,
       });
@@ -52,7 +51,6 @@ export default function Contact() {
       <div className="absolute inset-0 bg-[url('/patterns/arabesque-grid.png')] opacity-[0.10]" />
 
       <div className="container relative z-10 mx-auto px-6 max-w-6xl">
-        {/* TITLE */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,9 +70,7 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        {/* GRID */}
         <div className="grid md:grid-cols-2 gap-10 items-stretch">
-          {/* CONTACT DATA */}
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,6 +81,7 @@ export default function Contact() {
             <h3 className="text-3xl font-bold mb-4 text-[#3B82F6]">
               معلومات الاتصال المباشر
             </h3>
+
             <ul className="space-y-6 text-gray-700 text-lg">
               <li className="flex gap-3 items-start">
                 <MapPin className="w-6 h-6 text-[#F97316] mt-1" />
@@ -118,7 +115,6 @@ export default function Contact() {
             />
           </motion.div>
 
-          {/* FORM */}
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: -60 }}
@@ -133,7 +129,6 @@ export default function Contact() {
               placeholder="الاسم الكامل"
               className="w-full border border-gray-300 rounded-xl p-3 focus:border-[#F97316] outline-none"
             />
-
             <input
               name="email"
               required
@@ -141,14 +136,12 @@ export default function Contact() {
               placeholder="البريد الإلكتروني"
               className="w-full border border-gray-300 rounded-xl p-3 focus:border-[#F97316] outline-none"
             />
-
             <input
               name="phone"
               placeholder="رقم الهاتف"
               dir="ltr"
               className="w-full border border-gray-300 rounded-xl p-3 focus:border-[#F97316] outline-none"
             />
-
             <textarea
               name="message"
               required
@@ -156,14 +149,12 @@ export default function Contact() {
               placeholder="اكتب رسالتك هنا"
               className="w-full border border-gray-300 rounded-xl p-3 resize-none focus:border-[#F97316] outline-none"
             />
-
             <button
               type="submit"
               className="w-full py-4 rounded-xl text-white font-bold bg-[#F97316] hover:bg-orange-600 flex items-center justify-center gap-2"
             >
               إرسال الرسالة <Send className="w-5 h-5" />
             </button>
-
             <p className="text-center text-[#059669] font-bold text-lg">
               {status}
             </p>

@@ -1,16 +1,17 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const mediaSequence = [
   { type: "image", src: "/hero-1.jpg", duration: 8 },
-  { type: "video", src: "/videos/1.mp4", duration: 10 },
+  { type: "video", src: "/videos/1.mp4", duration: 28 },
 ];
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [showPromo, setShowPromo] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(
@@ -30,6 +31,28 @@ const Hero = () => {
   }, []);
 
   const current = mediaSequence[index];
+
+  if (showPromo) {
+    return (
+      <div className="fixed inset-0 bg-black z-99999 flex items-center justify-center">
+        <button
+          type="button"
+          className="absolute top-6 right-6 z-999999 inline-flex gap-2 items-center justify-center rounded-full bg-black hover:bg-white/25 text-white p-2 backdrop-blur-md"
+          onClick={() => setShowPromo(false)}
+        >
+          <X className="w-5 h-5" /> <span>تخطي العرض</span>
+        </button>
+        <video
+          src="/videos/full-promo.mp4"
+          className="w-full h-full object-contain md:object-cover"
+          autoPlay
+          playsInline
+          controls={false}
+          onEnded={() => setShowPromo(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <section
@@ -64,18 +87,8 @@ const Hero = () => {
       </AnimatePresence>
 
       <div className="absolute inset-0 bg-linear-to-b from-black/90 via-black/70 to-black/40" />
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
-        transition={{ delay: 1.5, duration: 2 }}
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)",
-        }}
-      />
 
-      <div className="relative z-10 w-full text-center px-6">
+      <div className="relative z-10 w-full text-center px-6 flex flex-col items-center gap-4">
         <motion.img
           src="/logo-colored.png"
           alt="Modern Alraqi Logo"
@@ -85,21 +98,33 @@ const Hero = () => {
           transition={{ delay: 1, duration: 1 }}
         />
 
-        <motion.a
-          href="#about"
-          className="inline-block mt-6 px-10 py-4 rounded-full font-semibold text-white bg-[#ca3833] hover:bg-[#2a2c6f] transition-all shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(202,56,51,0.5)]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.5, duration: 1 }}
-        >
-          <div className="flex items-center gap-1">
-            <span>إكتشف المزيد</span>
-            <ChevronDown />
-          </div>
-        </motion.a>
+        <div className="flex flex-col md:flex-row gap-4">
+          <motion.a
+            href="#about"
+            className="px-10 py-4 rounded-full font-semibold text-white bg-[#ca3833] hover:bg-[#2a2c6f] transition-all shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(202,56,51,0.5)]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.5, duration: 1 }}
+          >
+            <div className="flex items-center gap-1">
+              <span>إكتشف المزيد</span>
+              <ChevronDown />
+            </div>
+          </motion.a>
+
+          <motion.button
+            type="button"
+            className="px-10 py-4 rounded-full font-semibold text-white bg-white/20 hover:bg-white/30 backdrop-blur-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3, duration: 1 }}
+            onClick={() => setShowPromo(true)}
+          >
+            مشاهدة العرض التقديمي
+          </motion.button>
+        </div>
       </div>
 
-      {/* Cool Mouse Scroll Indicator */}
       <AnimatePresence>
         {!scrolled && (
           <motion.div
